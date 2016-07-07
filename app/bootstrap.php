@@ -39,7 +39,22 @@ if(!isset($_SERVER['ENVIRONMENT'])) {
 Phachon::$environment = constant('Phachon\Core\PhachonCore::'.strtoupper($_SERVER['ENVIRONMENT']));
 
 /**
- * route
+ * 错误显示
+ */
+$whoops = new \Whoops\Run();
+$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+$whoops->register();
+
+/**
+ * 初始化
+ */
+Phachon::init(array(
+	'module' => FALSE, //HMVC
+	'indexFile' => FALSE, //去除index
+));
+
+/**
+ * router
  */
 $router = Router::factory(RouterType::ROUTE_DEFAULTS, array(
 	'module' => 'video',
@@ -51,6 +66,7 @@ $router = Router::factory(RouterType::ROUTE_DEFAULTS, array(
  * 注册
  */
 Container::register('router', $router);
+Container::register('whoops', $whoops);
 Container::register('request', Request::createRequest());
 Container::register('response', Response::createResponse());
 

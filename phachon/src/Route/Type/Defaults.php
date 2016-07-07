@@ -11,7 +11,9 @@
 namespace Phachon\Route\Type;
 
 use Phachon\Helper\Arr;
+use Phachon\Service\Container;
 use Phachon\Route\Router as Router;
+use Phachon\Core\PhachonCore as Phachon;
 use Phachon\Interfaces\Router\Typing as RouteTypeInterface;
 
 class Defaults extends Router implements RouteTypeInterface{
@@ -29,18 +31,29 @@ class Defaults extends Router implements RouteTypeInterface{
 	 * @return mixed
 	 */
 	public function analyse() {
-		$url = $_SERVER['PHP_SELF'];
-		$url = str_replace('/'.PORTAL, '', $url);
-		if(!$url) {
+		$pathInfo = Container::request()->getPathInfo();
+		$urlParams = array_filter(explode('/', $pathInfo));
+		if(!count($urlParams)) {
 			$this->_module = self::$defaultModule;
 			$this->_controller = self::$defaultController;
 			$this->_method = self::$defaultMethod;
 			return 1;
 		}
-		$urlParams = explode('/', $url);
-		$this->_module = $urlParams[1];
-		$this->_controller = $urlParams[2];
-		$this->_method = $urlParams[3];
+		if(Phachon::$indexFile) {
+			if(isset($urlParams[Phachon::$indexFile])) {
+				unset($urlParams[Phachon::$indexFile]);
+			}
+		}
+		//var_dump($urlParams);exit();
+		//HMVC
+		if(Phachon::$module) {
+			$this->_module = $urlParams[1];
+			$this->_controller = $urlParams[2];
+			$this->_method = $urlParams[3];
+		}else {
+			$this->_controller = $urlParams[1];
+			$this->_method = $urlParams[2];
+		}
 		return 1;
 	}
 }

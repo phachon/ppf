@@ -17,6 +17,12 @@ use Phachon\Service\Container as Container;
 abstract class Base {
 
 	/**
+	 * 控制器方法
+	 * @var string
+	 */
+	public $method = '';
+
+	/**
 	 * content
 	 * @var string
 	 */
@@ -42,6 +48,7 @@ abstract class Base {
 	public function __construct(Request $request = NULL, Response $response = NULL) {
 		$this->request = $request ? $request : Container::request();
 		$this->response = $response ? $response : Container::response();
+		$this->method = Container::router()->getMethod();
 	}
 
 	/**
@@ -50,8 +57,7 @@ abstract class Base {
 	 */
 	public function execute() {
 		$this->before();
-		$method = Container::router()->getMethod();
-		$this->{'action_'.$method}();
+		$this->{'action_'.$this->method}();
 		$this->after();
 	}
 

@@ -11,10 +11,11 @@
 namespace Phachon\Route;
 
 use Phachon\Route\Type;
+use Phachon\Core\Exception;
 use Phachon\Helper\Arr as Arr;
 use Phachon\Helper\Strings as Strings;
+use Phachon\Core\PhachonCore as Phachon;
 use Phachon\Interfaces\Router\Routing as RouterInterface;
-use Phachon\Controller\Test as TestController;
 
 class Router implements RouterInterface {
 	
@@ -66,6 +67,7 @@ class Router implements RouterInterface {
 	 * @param $type
 	 * @param array $defaults
 	 * @return object
+	 * @throws Exception
 	 */
 	public static function factory($type, array $defaults = array()) {
 		$type = Strings::firstToLower($type);
@@ -73,17 +75,29 @@ class Router implements RouterInterface {
 		self::$defaultModule = Arr::get($defaults, 'module', 'Index');
 		self::$defaultController = Arr::get($defaults, 'controller', 'Index');
 		self::$defaultMethod = Arr::get($defaults, 'method', 'Index');
+		
 		$className = 'Phachon\\Route\\Type\\'.$type;
+		if(!class_exists($className)) {
+			throw new Exception("route type $type not found");
+		}
 		return new $className();
 	}
 
 	/**
 	 * router dispatcher
 	 * @return mixed
+	 * @throws Exception
 	 */
 	public function dispatcher() {
 		$this->analyse();
-		$controller = 'App\\Controller\\'.$this->_controller;
+		if(Phachon::$module) {
+			$controller = 'App\\'.$this->getModule().'\\Controller\\'.$this->getController();
+		}else {
+			$controller = 'App\\Controller\\'.$this->getController();
+		}
+		if(!class_exists($controller)) {
+			throw new Exception("controller $controller not found");
+		}
 		$controller = new $controller();
 		$controller->execute();
 	}
@@ -100,20 +114,20 @@ class Router implements RouterInterface {
 	 * @return string
 	 */
 	public function getModule() {
-		return $this->_module;
+		return Strings::firstToLower($this->_module);
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getController() {
-		return $this->_controller;
+		return Strings::firstToLower($this->_controller);
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getMethod() {
-		return $this->_method;
+		return Strings::firstToLower($this->_method);
 	}
 }

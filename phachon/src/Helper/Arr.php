@@ -10,6 +10,7 @@
 
 namespace Phachon\Helper;
 
+
 class Arr {
 
 	/**
@@ -84,7 +85,7 @@ class Arr {
 
 		for ($i = 0; $i < count($keys); $i++) {
 			if(!isset($array[$keys[$i]])) {
-				throw new \Exception('array key '. $keys[$i]. 'not found');
+				throw new Exception('array key '. $keys[$i]. 'not found');
 			}
 			$array = $array[$keys[$i]];
 		}

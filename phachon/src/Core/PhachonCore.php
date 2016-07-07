@@ -10,6 +10,7 @@
 
 namespace Phachon\Core;
 
+
 class PhachonCore {
 
 	/**
@@ -39,13 +40,40 @@ class PhachonCore {
 	public static $environment = 4;
 
 	/**
-	 * 初始化
+	 * 模块
+	 * @var string
 	 */
-	public static function init() {
+	public static $module = FALSE;
+
+	/**
+	 * base url
+	 * / => 可用于去除index.php
+	 * @var string
+	 */
+	public static $baseUrl = '/';
+
+	/**
+	 * index file
+	 * @var string
+	 */
+	public static $indexFile = 'index.php';
+
+	/**
+	 * 初始化
+	 * @param array $setting
+	 */
+	public static function init(array $setting = array()) {
 
 		self::_checkPhpVersion();
 		self::_checkLogsDir();
 		self::_checkCacheDir();
+
+		if(isset($setting['module'])) {
+			PhachonCore::$module = $setting['module'];
+		}
+		if(isset($setting['indexFile'])) {
+			PhachonCore::$indexFile = $setting['indexFile'];
+		}
 	}
 
 	/**
@@ -53,7 +81,7 @@ class PhachonCore {
 	 */
 	private static function _checkPhpVersion() {
 		if(version_compare(self::PHP_LOWER_VERSION, PHP_VERSION, ">")) {
-			die("PHP 5.3 or greater is required!!!");
+			throw new Exception("PHP version must >= 5.3");
 		}
 	}
 
@@ -62,10 +90,10 @@ class PhachonCore {
 	 */
 	private static function _checkLogsDir() {
 		if(!is_readable(LOG_DIR)) {
-			die("cache dir is not readable");
+			throw new Exception("application logs must readable");
 		}
 		if(!is_writable(LOG_DIR)) {
-			die("cache dir is not writable");
+			throw new Exception("application logs must writable");
 		}
 	}
 
@@ -74,10 +102,10 @@ class PhachonCore {
 	 */
 	private static function _checkCacheDir() {
 		if(!is_readable(CACHE_DIR)) {
-			die("cache dir is not readable");
+			throw new Exception("cache dir is not readable");
 		}
 		if(!is_writable(CACHE_DIR)) {
-			die("cache dir is not writable");
+			throw new Exception("cache dir is not writable");
 		}
 	}
 
