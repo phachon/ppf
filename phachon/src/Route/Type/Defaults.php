@@ -16,7 +16,7 @@ use Phachon\Route\Router as Router;
 use Phachon\Core\PhachonCore as Phachon;
 use Phachon\Interfaces\Router\Typing as RouteTypeInterface;
 
-class Defaults extends Router implements RouteTypeInterface{
+class Defaults extends Router implements RouteTypeInterface {
 
 	/**
 	 * Defaults constructor.

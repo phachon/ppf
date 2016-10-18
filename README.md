@@ -2,4 +2,4 @@
 phachon php freamwork
 PPF 框架
 
-一个灵活的PHP freamwork
+一个简单灵活易扩展的PHP freamwork

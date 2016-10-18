@@ -49,7 +49,7 @@ $whoops->register();
  * 初始化
  */
 Phachon::init(array(
-	'module' => FALSE, //HMVC
+	'module' => TRUE, //HMVC
 	'indexFile' => FALSE, //去除index
 ));
 

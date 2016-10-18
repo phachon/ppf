@@ -72,10 +72,10 @@ class Router implements RouterInterface {
 	public static function factory($type, array $defaults = array()) {
 		$type = Strings::firstToLower($type);
 
-		self::$defaultModule = Arr::get($defaults, 'module', 'Index');
+		self::$defaultModule = Arr::get($defaults, 'module', '');
 		self::$defaultController = Arr::get($defaults, 'controller', 'Index');
 		self::$defaultMethod = Arr::get($defaults, 'method', 'Index');
-		
+
 		$className = 'Phachon\\Route\\Type\\'.$type;
 		if(!class_exists($className)) {
 			throw new Exception("route type $type not found");
@@ -90,6 +90,7 @@ class Router implements RouterInterface {
 	 */
 	public function dispatcher() {
 		$this->analyse();
+
 		if(Phachon::$module) {
 			$controller = 'App\\'.$this->getModule().'\\Controller\\'.$this->getController();
 		}else {
