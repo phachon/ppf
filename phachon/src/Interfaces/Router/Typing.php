@@ -24,12 +24,6 @@ interface Typing {
 	 * http://phachon.com?m=video&c=category&a=add&id=67887
 	 */
 	const ROUTE_NATIVE = 'native';
-
-	/**
-	 * 路径方式路由
-	 * http://phachon.com/video/category/id/5767756
-	 */
-	const ROUTE_PATHINFO = 'pathinfo';
 	
 	/**
 	 * 解析

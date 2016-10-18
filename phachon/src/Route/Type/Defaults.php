@@ -44,7 +44,6 @@ class Defaults extends Router implements RouteTypeInterface {
 				unset($urlParams[Phachon::$indexFile]);
 			}
 		}
-		//var_dump($urlParams);exit();
 		//HMVC
 		if(Phachon::$module) {
 			$this->_module = $urlParams[1];

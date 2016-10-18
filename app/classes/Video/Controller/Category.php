@@ -16,6 +16,6 @@ use Phachon\Controller\Base as BaseController;
 class Category extends BaseController {
 
 	public function action_add() {
-		
+		echo 'ok';
 	}
 }

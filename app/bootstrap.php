@@ -56,7 +56,7 @@ Phachon::init(array(
 /**
  * router
  */
-$router = Router::factory(RouterType::ROUTE_DEFAULTS, array(
+$router = Router::factory(RouterType::ROUTE_NATIVE, array(
 	'module' => 'video',
 	'controller' => 'test',
 	'method' => 'test'
