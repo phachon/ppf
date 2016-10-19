@@ -5,7 +5,7 @@
  * @category  Controller
  * @author    phachon@163.com
  * @copyright (c) 2016-2017 phachon
- * @license
+ * @license   MIT
  */
 
 namespace Phachon\Controller;
