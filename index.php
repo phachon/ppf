@@ -76,6 +76,11 @@ define('CACHE_DIR', realpath($application.'/cache').DIRECTORY_SEPARATOR);
 define('LOG_DIR', realpath($application.'/logs').DIRECTORY_SEPARATOR);
 
 /**
+ * 配置路径
+ */
+define('CONF_DIR', realpath($application.'/config').DIRECTORY_SEPARATOR);
+
+/**
  * 启动文件
  */
 require APP_DIR . 'bootstrap'.EXT;

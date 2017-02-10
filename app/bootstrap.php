@@ -9,6 +9,7 @@
  */
 
 use Phachon\Route\Router as Router;
+use Phachon\Config\Config as Config;
 use Phachon\Http\Request as Request;
 use Phachon\Http\Response as Response;
 use Phachon\Core\PhachonCore as Phachon;
@@ -49,17 +50,17 @@ $whoops->register();
  * 初始化
  */
 Phachon::init(array(
-	'module' => TRUE, //HMVC
-	'indexFile' => FALSE, //去除index
+	'hmvc' => TRUE, //HMVC
+	'index' => FALSE, //去除index
 ));
 
 /**
  * router
  */
-$router = Router::factory(RouterType::ROUTE_NATIVE, array(
-	'module' => 'video',
-	'controller' => 'test',
-	'method' => 'test'
+$router = Router::factory(RouterType::ROUTE_DEFAULTS, array(
+	'module' => 'index',
+	'controller' => 'index',
+	'method' => 'index'
 ));
 
 /**
@@ -69,6 +70,7 @@ Container::register('router', $router);
 Container::register('whoops', $whoops);
 Container::register('request', Request::createRequest());
 Container::register('response', Response::createResponse());
+Container::register('config', Config::instance());
 
 /**
  * run

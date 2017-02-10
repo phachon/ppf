@@ -11,22 +11,11 @@
 namespace Phachon\Database;
 
 
+use Phachon\Core\PhachonCore;
+use Phachon\Service\Container as Container;
+use phpDocumentor\Reflection\Type;
+
 abstract class Database {
-
-	/**
-	 * mysql connect
-	 */
-	const TYPE_MYSQL = 1;
-
-	/**
-	 * mysqli connect
-	 */
-	const TYPE_MYSQLI = 2;
-
-	/**
-	 * pdo connect
-	 */
-	const TYPE_PDO = 3;
 
 	/**
 	 * conn
@@ -83,23 +72,30 @@ abstract class Database {
 	protected $_results = NULL;
 
 	/**
+	 * default db name
+	 * @var string
+	 */
+	protected static $_default = 'default';
+
+	public static function instance($db = '', array $config = NULL) {
+
+	}
+
+	/**
 	 * factory
 	 * @param integer $type
 	 * @return Database
+	 * @throws Exception
 	 */
 	public static function factory($type) {
 
-		if($type == self::TYPE_MYSQL) {
-			return new Type\Mysql();
-		}
-		if($type == self::TYPE_MYSQLI) {
-			return new Type\Mysqli();
-		}
-		if($type == self::TYPE_PDO) {
-			return new Type\PDO();
-		}
+		$type = ucfirst(strtolower($type));
 
-		return new Type\Mysql();
+		$class = "Phachon\\Database\\Type\\$type";
+		if(!class_exists($class)) {
+			throw new Exception('Database connection type '. $type .' not exists');
+		}
+		return new $class();
 	}
 
 	/**

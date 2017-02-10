@@ -15,6 +15,11 @@ use Phachon\Database\Exception;
 
 class Mysql extends Database {
 
+	/**
+	 * connect
+	 * @return $this
+	 * @throws Exception
+	 */
 	public function connect() {
 
 		$this->_conn = @mysql_connect($this->_host. ":" .$this->_port, $this->_user, $this->_password);
@@ -32,6 +37,12 @@ class Mysql extends Database {
 		return $this;
 	}
 
+	/**
+	 * query
+	 * @param string $sql
+	 * @return resource
+	 * @throws Exception
+	 */
 	public function query($sql = '') {
 
 		$this->_results = mysql_query($sql, $this->_conn);
@@ -41,14 +52,20 @@ class Mysql extends Database {
 		return $this->_results;
 	}
 
-	public function current()
-	{
-		// TODO: Implement current() method.
+	/**
+	 * get current data
+	 * @return array|bool
+	 */
+	public function current() {
+		return mysql_num_rows($this->_results) ? mysql_fetch_assoc($this->_results) : FALSE;
 	}
 
-	public function getRow()
-	{
-		// TODO: Implement getRow() method.
+	/**
+	 * get affected row
+	 * @return bool|int
+	 */
+	public function getRow() {
+		return $this->_results ? mysql_affected_rows() : FALSE;
 	}
 
 	/**
@@ -61,7 +78,7 @@ class Mysql extends Database {
 	}
 
 	/**
-	 * 析构
+	 * destruct
 	 */
 	public function __destruct() {
 		$this->close();

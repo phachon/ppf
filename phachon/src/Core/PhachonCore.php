@@ -40,10 +40,10 @@ class PhachonCore {
 	public static $environment = 4;
 
 	/**
-	 * 模块
+	 * hmvc
 	 * @var string
 	 */
-	public static $module = FALSE;
+	public static $hmvc = FALSE;
 
 	/**
 	 * base url
@@ -53,10 +53,16 @@ class PhachonCore {
 	public static $baseUrl = '/';
 
 	/**
-	 * index file
+	 * clean index.php
 	 * @var string
 	 */
-	public static $indexFile = 'index.php';
+	public static $index = false;
+
+	/**
+	 * config path
+	 * @var string
+	 */
+	public static $configPath = '';
 
 	/**
 	 * 初始化
@@ -67,12 +73,13 @@ class PhachonCore {
 		self::_checkPhpVersion();
 		self::_checkLogsDir();
 		self::_checkCacheDir();
+		self::_loadConfig();
 
-		if(isset($setting['module'])) {
-			PhachonCore::$module = $setting['module'];
+		if(isset($setting['hmvc'])) {
+			PhachonCore::$hmvc = $setting['hmvc'];
 		}
-		if(isset($setting['indexFile'])) {
-			PhachonCore::$indexFile = $setting['indexFile'];
+		if(isset($setting['index'])) {
+			PhachonCore::$index = $setting['index'];
 		}
 	}
 
@@ -117,10 +124,29 @@ class PhachonCore {
 	}
 
 	/**
-	 * 加载配置文件
+	 * 配置文件路径
 	 */
-	public static function loadConfig() {
+	private static function _loadConfig() {
 
+		switch (self::$environment) {
+			case self::DEVELOPMENT:
+				$path = CONF_DIR . 'development' . DIRECTORY_SEPARATOR;
+				break;
+			case self::PRODUCTION:
+				$path = CONF_DIR . 'production' . DIRECTORY_SEPARATOR;
+				break;
+			case self::TESTING:
+				$path = CONF_DIR . 'testing' . DIRECTORY_SEPARATOR;
+				break;
+			case self::STAGING:
+				$path = CONF_DIR . 'staging' . DIRECTORY_SEPARATOR;
+				break;
+			default:
+				$path = CONF_DIR . 'development' . DIRECTORY_SEPARATOR;
+				break;
+		}
+
+		self::$configPath = $path;
 	}
 
 	/**

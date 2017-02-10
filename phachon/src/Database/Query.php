@@ -10,6 +10,7 @@
 
 namespace Phachon\Database;
 
+use Phachon\Service\Container as Container;
 
 class Query {
 
@@ -20,11 +21,22 @@ class Query {
 	}
 
 	public function execute($db) {
-//		echo "<pre/>";
 		$this->complete();
-		Database::instance($db);
 
-		echo $this->_sql;
+		$config = Container::config()->load('database.' . $db);
+
+		$database = Database::factory($config['type'])
+			->host($config['host'])
+			->port($config['port'])
+			->user($config['user'])
+			->password($config['password'])
+			->database($config['database'])
+			->charset($config['charset'])
+			->connect();
+//		echo $this->_sql;
+//		exit();
+		$result = $database->query($this->_sql);
+
 	}
 
 	public function as_array() {

@@ -13,7 +13,7 @@ namespace Phachon\Database\Query\Builder;
 use Phachon\Database\Exception;
 use Phachon\Database\Query\Builder;
 
-class Select extends Builder {
+class Select extends Where {
 
 	protected $_select = array();
 
@@ -21,18 +21,25 @@ class Select extends Builder {
 
 	protected $_group_by = array();
 
-	protected $_limit = NULL;
-
-	protected $_order_by = array();
-
 	/**
 	 * Select constructor.
 	 * @param array|NULL $columns columns list
 	 */
 	public function __construct(array $columns) {
-		if(!empty($columns)) {
+		if(! empty($columns)) {
 			$this->_select = $columns;
 		}
+	}
+
+	/**
+	 * select columns
+	 * @param null $columns
+	 * @return $this
+	 */
+	public function select($columns = NULL) {
+		$columns = func_get_args();
+		$this->_select = array_merge($this->_select, $columns);
+		return $this;
 	}
 
 	/**
@@ -100,6 +107,8 @@ class Select extends Builder {
 		if(!empty($this->_where)) {
 			// add where conditions
 			$query .= ' WHERE' . $this->_compileWhere($this->_where);
+			echo $query;
+			exit();
 		}
 		if(!empty($this->_order_by)) {
 			// add order_by conditions
@@ -117,5 +126,4 @@ class Select extends Builder {
 		$this->_sql = $query;
 	}
 
-	
 }

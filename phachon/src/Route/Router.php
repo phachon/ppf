@@ -91,13 +91,13 @@ class Router implements RouterInterface {
 	public function dispatcher() {
 		$this->analyse();
 
-		if(Phachon::$module) {
+		if(Phachon::$hmvc) {
 			$controller = 'App\\'.$this->getModule().'\\Controller\\'.$this->getController();
 		}else {
 			$controller = 'App\\Controller\\'.$this->getController();
 		}
 		if(!class_exists($controller)) {
-			throw new Exception("controller $controller not found");
+			throw new Exception("Controller $controller not found");
 		}
 		$controller = new $controller();
 		$controller->execute();
