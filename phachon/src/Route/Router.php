@@ -13,7 +13,7 @@ namespace Phachon\Route;
 use Phachon\Route\Type;
 use Phachon\Core\Exception;
 use Phachon\Helper\Arr as Arr;
-use Phachon\Helper\Strings as Strings;
+use Phachon\Helper\Str as Str;
 use Phachon\Core\PhachonCore as Phachon;
 use Phachon\Interfaces\Router\Routing as RouterInterface;
 
@@ -70,7 +70,7 @@ class Router implements RouterInterface {
 	 * @throws Exception
 	 */
 	public static function factory($type, array $defaults = array()) {
-		$type = Strings::firstToLower($type);
+		$type = Str::firstToLower($type);
 
 		self::$defaultModule = Arr::get($defaults, 'module', '');
 		self::$defaultController = Arr::get($defaults, 'controller', 'Index');
@@ -78,8 +78,9 @@ class Router implements RouterInterface {
 
 		$className = 'Phachon\\Route\\Type\\'.$type;
 		if(!class_exists($className)) {
-			throw new Exception("route type $type not found");
+			throw new Exception("route type $type not support!");
 		}
+
 		return new $className();
 	}
 
@@ -97,9 +98,10 @@ class Router implements RouterInterface {
 			$controller = 'App\\Controller\\'.$this->getController();
 		}
 		if(!class_exists($controller)) {
-			throw new Exception("Controller $controller not found");
+			throw new Exception("Controller $controller not found!");
 		}
 		$controller = new $controller();
+		
 		$controller->execute();
 	}
 
@@ -115,20 +117,20 @@ class Router implements RouterInterface {
 	 * @return string
 	 */
 	public function getModule() {
-		return Strings::firstToLower($this->_module);
+		return Str::firstToLower($this->_module);
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getController() {
-		return Strings::firstToLower($this->_controller);
+		return Str::firstToLower($this->_controller);
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getMethod() {
-		return Strings::firstToLower($this->_method);
+		return Str::firstToLower($this->_method);
 	}
 }

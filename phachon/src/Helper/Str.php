@@ -10,7 +10,8 @@
 
 namespace Phachon\Helper;
 
-class Strings {
+
+class Str {
 
 	/**
 	 * 首字母大写，其余小写
@@ -20,4 +21,5 @@ class Strings {
 	public static function firstToLower($string = '') {
 		return ucfirst(strtolower($string));
 	}
+
 }

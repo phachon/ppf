@@ -12,18 +12,26 @@ namespace App\Index\Controller;
 
 use Phachon\Database\DB;
 use Phachon\Controller\Base as BaseController;
+use Phachon\Database\Query;
+use Phachon\Database\Query\Builder;
 
 class Index extends BaseController {
 
 	public function action_index() {
-		$reult = DB::select('*')
-			->from('chat_user')
-//			->where('username', '=', 'test')
-			->and_where('user_id', '>', 0)
-			->order_by('user_id', 'DESC')
-			->offset(10)
-			->limit(10)
-			->execute('video');
+
+		$query = Query\Builder::select('name','password', 'hu')
+			->distinct()
+			->from('chat_user', 'chat_name')
+			->where_open()
+				->and_where('username', '=', 'test')
+				->and_where('user_id', '>', 0)
+				->or_where('user_id', '>', 110)
+			->where_close()
+			->complete()
+			->getSql();
+		
+		echo $query;
+//		var_dump($query);
 
 	}
 }

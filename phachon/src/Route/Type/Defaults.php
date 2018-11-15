@@ -39,21 +39,22 @@ class Defaults extends Router implements RouteTypeInterface {
 			$this->_method = self::$defaultMethod;
 			return 1;
 		}
-
-		if(Phachon::$index) {
+		
+		// index true
+		if(!Phachon::$index) {
 			if(isset($urlParams['index.php'])) {
 				unset($urlParams['index.php']);
 			}
 		}
 
-		//hmvc
+		//hmvc is true
 		if(Phachon::$hmvc) {
-			$this->_module = $urlParams[1];
-			$this->_controller = $urlParams[2];
-			$this->_method = $urlParams[3];
+			$this->_module = isset($urlParams[1]) ? $urlParams[1] : $this->_module;
+			$this->_controller = isset($urlParams[2]) ? $urlParams[2] : $this->_controller;
+			$this->_method = isset($urlParams[3]) ? $urlParams[3] : $this->_method;
 		}else {
-			$this->_controller = $urlParams[1];
-			$this->_method = $urlParams[2];
+			$this->_controller = isset($urlParams[1]) ? $urlParams[1] : $this->_controller;
+			$this->_method = isset($urlParams[2]) ? $urlParams[2] : $this->_method;
 		}
 		return 1;
 	}

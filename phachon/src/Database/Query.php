@@ -17,7 +17,7 @@ class Query {
 	protected $_sql = '';
 
 	public function __construct() {
-
+		
 	}
 
 	public function execute($db) {
@@ -35,7 +35,7 @@ class Query {
 			->connect();
 //		echo $this->_sql;
 //		exit();
-		$result = $database->query($this->_sql);
+//		$result = $database->query($this->_sql);
 
 	}
 
@@ -49,5 +49,9 @@ class Query {
 
 	public function get() {
 
+	}
+
+	public function __toString() {
+		return $this->_sql;
 	}
 }

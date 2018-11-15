@@ -9,11 +9,7 @@
  */
 
 use Phachon\Route\Router as Router;
-use Phachon\Config\Config as Config;
-use Phachon\Http\Request as Request;
-use Phachon\Http\Response as Response;
 use Phachon\Core\PhachonCore as Phachon;
-use Phachon\Service\Container as Container;
 use Phachon\Interfaces\Router\Typing as RouterType;
 
 if(is_file(ROOT_DIR . 'vendor/autoload.php')) {
@@ -21,6 +17,7 @@ if(is_file(ROOT_DIR . 'vendor/autoload.php')) {
 }else {
 	exit('not found vendor dir');
 }
+
 /**
  * 时区
  */
@@ -62,15 +59,6 @@ $router = Router::factory(RouterType::ROUTE_DEFAULTS, array(
 	'controller' => 'index',
 	'method' => 'index'
 ));
-
-/**
- * 注册
- */
-Container::register('router', $router);
-Container::register('whoops', $whoops);
-Container::register('request', Request::createRequest());
-Container::register('response', Response::createResponse());
-Container::register('config', Config::instance());
 
 /**
  * run
